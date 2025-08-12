@@ -1,0 +1,10 @@
+### ❌ Missing name
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "testuser2",
+  "email": "testuser2@example.com",
+  "password": "StrongPass1!"
+}

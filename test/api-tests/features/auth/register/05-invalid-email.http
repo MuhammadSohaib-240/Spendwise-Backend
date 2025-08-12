@@ -1,0 +1,11 @@
+### ❌ Invalid email format
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Test User 5",
+  "username": "testuser5",
+  "email": "not-an-email",
+  "password": "StrongPass1!"
+}

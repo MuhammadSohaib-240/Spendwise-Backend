@@ -1,0 +1,11 @@
+### ❌ Duplicate username registration attempt
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Test User 6",
+  "username": "testuser1", // Username already registered from success test
+  "email": "uniqueemail@example.com",
+  "password": "AnotherPass1!"
+}

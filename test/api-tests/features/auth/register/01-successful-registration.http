@@ -1,0 +1,11 @@
+### ✅ Successful registration
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Test User 1",
+  "username": "testuser1",
+  "email": "testuser1@example.com",
+  "password": "StrongPass1!"
+}

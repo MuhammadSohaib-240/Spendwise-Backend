@@ -1,18 +1,24 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/core/security/jwt/jwt-auth-guards/jwt.auth.guard';
+import { RolesGuard } from 'src/core/security/jwt/jwt-auth-guards/roles.guard';
 import { UserService } from './user.service';
 import { User } from './user.entity';
+import { Roles } from 'src/core/security/jwt/jwt-auth-guards/roles.decorator';
+import { Role } from './roles.enum';
 
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get()
-  findAll(): Promise<User[]> {
-    return this.userService.findAll();
+  @Get('profile')
+  getProfile() {
+    return { msg: 'Only logged-in users can access this' };
   }
 
-  @Post()
-  create(@Body() userData: Partial<User>): Promise<User> {
-    return this.userService.create(userData);
+  @Roles(Role.ADMIN)
+  @Get('admin')
+  getAdminPanel() {
+    return { msg: 'Only admins can access this' };
   }
 }

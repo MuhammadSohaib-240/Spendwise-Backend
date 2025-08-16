@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { JwtTokenService } from '../jwt/jwt.service';
+import { JwtTokenService } from '../../../core/security/jwt/jwt.service';
 import { LoginRequest, LoginResponse } from './login.dto';
 import { User } from 'src/features/user/user.entity';
 
@@ -19,7 +19,7 @@ export class LoginHandler {
 
     const isPasswordValid = await bcrypt.compare(req.password, user.password);
     if (!isPasswordValid)
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException('Incorrect email or password');
 
     const token = this.jwtTokenService.sign({
       sub: user.id,

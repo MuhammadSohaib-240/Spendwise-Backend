@@ -1,0 +1,4 @@
+### Access protected route
+GET http://localhost:3000/users/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoidGVzdHVzZXIxIiwiaWF0IjoxNzU1MzU1NDg2LCJleHAiOjE3NTUzNTkwODZ9.N707VV6e6-YvCS76jlgru5BiJJGGxsirgRRI2gIjp4U
+Accept: application/json

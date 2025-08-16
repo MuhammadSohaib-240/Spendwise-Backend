@@ -24,4 +24,10 @@ export class User {
     default: Role.USER
   })
   role: Role;
+
+  @Column({ nullable: true })
+  resetToken: string;
+
+  @Column({ type: 'timestamp', nullable: true })
+  resetTokenExpiry: Date;
 }

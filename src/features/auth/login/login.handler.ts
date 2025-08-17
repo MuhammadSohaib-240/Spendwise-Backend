@@ -21,11 +21,11 @@ export class LoginHandler {
     if (!isPasswordValid)
       throw new UnauthorizedException('Incorrect email or password');
 
-    const token = this.jwtTokenService.sign({
+    const { token, expiredAt } = this.jwtTokenService.sign({
       sub: user.id,
       username: user.username,
     });
 
-    return new LoginResponse(token);
+    return new LoginResponse(token, expiredAt);
   }
 }

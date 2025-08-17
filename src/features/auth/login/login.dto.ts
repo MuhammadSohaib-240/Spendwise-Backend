@@ -10,8 +10,10 @@ export class LoginRequest {
 
 export class LoginResponse {
   accessToken: string;
+  expiredAt: number; // Unix timestamp in milliseconds
 
-  constructor(token: string) {
+  constructor(token: string, expiredAt: number) {
     this.accessToken = token;
+    this.expiredAt = expiredAt;
   }
 }

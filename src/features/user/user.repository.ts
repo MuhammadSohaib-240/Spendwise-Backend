@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from './user.entity';
+import { User } from '../../core/entities/user.entity';
 
 @Injectable()
 export class UserRepository {
@@ -14,7 +14,11 @@ export class UserRepository {
     return this.repo.findOne({ where: { email } });
   }
 
-  async setResetToken(userId: number, token: string, expiry: Date): Promise<void> {
+  async setResetToken(
+    userId: number,
+    token: string,
+    expiry: Date,
+  ): Promise<void> {
     await this.repo.update(userId, {
       resetToken: token,
       resetTokenExpiry: expiry,

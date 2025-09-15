@@ -7,7 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { RegisterRequest, RegisterResponse } from './register.dto';
-import { User } from 'src/features/user/user.entity';
+import { User } from 'src/core/entities/user.entity';
 
 @Injectable()
 export class RegisterHandler {

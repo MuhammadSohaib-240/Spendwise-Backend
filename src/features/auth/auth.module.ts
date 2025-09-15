@@ -9,7 +9,7 @@ import { RegisterEndpoint } from './register/register.endpoint';
 import { LoginEndpoint } from './login/login.endpoint';
 import { RegisterHandler } from './register/register.handler';
 import { LoginHandler } from './login/login.handler';
-import { User } from '../user/user.entity';
+import { User } from '../../core/entities/user.entity';
 import { ForgotPasswordEndpoint } from './forgot-password/forgot-password.endpoint';
 import { ForgotPasswordHandler } from './forgot-password/forgot-password.handler';
 import { UserModule } from '../user/user.module';
@@ -24,9 +24,15 @@ import { EmailModule } from 'src/core/email/email.module';
       signOptions: { expiresIn: jwtConstants.expiresIn },
     }),
     UserModule,
-    EmailModule
+    EmailModule,
   ],
   controllers: [RegisterEndpoint, LoginEndpoint, ForgotPasswordEndpoint],
-  providers: [JwtTokenService, JwtStrategy, RegisterHandler, LoginHandler, ForgotPasswordHandler],
+  providers: [
+    JwtTokenService,
+    JwtStrategy,
+    RegisterHandler,
+    LoginHandler,
+    ForgotPasswordHandler,
+  ],
 })
 export class AuthModule {}

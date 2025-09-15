@@ -18,34 +18,28 @@ export class LoginHandler {
   ) {}
 
   async execute(req: LoginRequest): Promise<LoginResponse> {
-    try {
-      const user = await this.userRepo.findOne({ where: { email: req.email } });
-      if (!user) throw new UnauthorizedException('Invalid credentials');
+    const user = await this.userRepo.findOne({ where: { email: req.email } });
+    if (!user) throw new UnauthorizedException('Invalid credentials');
 
-      const isPasswordValid = await bcrypt.compare(req.password, user.password);
-      if (!isPasswordValid)
-        throw new UnauthorizedException('Incorrect email or password');
+    const isPasswordValid = await bcrypt.compare(req.password, user.password);
+    if (!isPasswordValid)
+      throw new UnauthorizedException('Incorrect email or password');
 
-      const { token, expiredAt } = this.jwtTokenService.sign({
-        sub: user.id,
-        username: user.username,
-      });
+    const { token, expiredAt } = this.jwtTokenService.sign({
+      sub: user.id,
+      username: user.username,
+    });
 
-      return new LoginResponse(
-        token,
-        expiredAt,
-        new LoginUserResponse(
-          user.id,
-          user.name,
-          user.username,
-          user.email,
-          user.role.toString(),
-        ),
-      );
-    } catch (exception) {
-      throw new InternalServerErrorException(
-        'Login failed due to internal server error',
-      );
-    }
+    return new LoginResponse(
+      token,
+      expiredAt,
+      new LoginUserResponse(
+        user.id,
+        user.name,
+        user.username,
+        user.email,
+        user.role.toString(),
+      ),
+    );
   }
 }

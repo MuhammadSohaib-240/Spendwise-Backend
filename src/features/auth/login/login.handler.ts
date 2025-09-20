@@ -19,7 +19,7 @@ export class LoginHandler {
 
   async execute(req: LoginRequest): Promise<LoginResponse> {
     if (!req?.email || !req?.password) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException('Invalid email or password');
     }
 
     let user: User | null = null;
@@ -30,7 +30,7 @@ export class LoginHandler {
     }
 
     if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException('Invalid email or password');
     }
 
     let isPasswordValid = false;
@@ -41,7 +41,7 @@ export class LoginHandler {
     }
 
     if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException('Invalid email or password');
     }
 
     let token: string;

@@ -18,21 +18,46 @@ export class LoginHandler {
   ) {}
 
   async execute(req: LoginRequest): Promise<LoginResponse> {
-    const user = await this.userRepo.findOne({ where: { email: req.email } });
-    if (!user) throw new UnauthorizedException('Invalid credentials');
+    if (!req?.email || !req?.password) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
 
-    const isPasswordValid = await bcrypt.compare(req.password, user.password);
-    if (!isPasswordValid)
-      throw new UnauthorizedException('Incorrect email or password');
+    let user: User | null = null;
+    try {
+      user = await this.userRepo.findOne({ where: { email: req.email } });
+    } catch (err) {
+      throw new InternalServerErrorException('Unable to process request');
+    }
 
-    const { token, expiredAt } = this.jwtTokenService.sign({
-      sub: user.id,
-      username: user.username,
-    });
+    if (!user) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    let isPasswordValid = false;
+    try {
+      isPasswordValid = await bcrypt.compare(req.password, user.password);
+    } catch (err) {
+      throw new InternalServerErrorException('Unable to process request');
+    }
+
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    let token: string;
+    let expiredAt: number;
+    try {
+      ({ token, expiredAt } = this.jwtTokenService.sign({
+        sub: user.id,
+        username: user.username,
+      }));
+    } catch (err) {
+      throw new InternalServerErrorException('Token generation failed');
+    }
 
     return new LoginResponse(
       token,
-      expiredAt,
+      expiredAt, // already a number in ms
       new LoginUserResponse(
         user.id,
         user.name,
